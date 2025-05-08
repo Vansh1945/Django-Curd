@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --danger-color: #f72585;
+            --success-color: #4cc9f0;
+            --dark-color: #212529;
+            --light-color: #f8f9fa;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            font-family: 'Poppins', sans-serif;
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
+            box-shadow: 0 4px 18px rgba(67, 97, 238, 0.15);
+            padding: 0.8rem 1rem;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand i {
+            margin-right: 10px;
+            font-size: 1.4rem;
+        }
+
+        .form-container,
+        .table-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            border: none;
+        }
+
+        .form-container {
+            margin-top: 30px;
+        }
+
+        h3 {
+            color: var(--dark-color);
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent-color);
+            font-weight: 600;
+            position: relative;
+        }
+
+        h3:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 50px;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #5a6169;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #e1e5eb;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            height: calc(1.5em + 1rem + 2px);
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(72, 149, 239, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger-color) 0%, #b5179e 100%);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(247, 37, 133, 0.2);
+            font-size: 0.8rem;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #b5179e 0%, var(--danger-color) 100%);
+        }
+
+        .table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+        }
+
+        .table thead th {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: none;
+            font-weight: 500;
+            padding: 15px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .table tbody td {
+            padding: 12px 15px;
+            border-top: 1px solid #f1f3f5;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:first-child td {
+            border-top: none;
+        }
+
+        .alert-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 350px;
+        }
+
+        .alert {
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .alert:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 100%;
+        }
+
+        .alert-success {
+            background-color: #f0f9ff;
+            color: #0369a1;
+        }
+
+        .alert-success:before {
+            background-color: var(--success-color);
+        }
+
+        .alert-danger {
+            background-color: #fff0f3;
+            color: #be123c;
+        }
+
+        .alert-danger:before {
+            background-color: var(--danger-color);
+        }
+
+        .alert-info {
+            background-color: #f0f9ff;
+            color: #0369a1;
+        }
+
+        .alert-info:before {
+            background-color: var(--accent-color);
+        }
+
+        .footer {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            font-weight: 500;
+            box-shadow: 0 -4px 20px rgba(67, 97, 238, 0.15);
+            z-index: 100;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .form-container,
+            .table-container {
+                padding: 20px;
+            }
+            
+            .alert-container {
+                max-width: 90%;
+                left: 5%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-user-graduate"></i> Student Portal
+            </a>
+        </div>
+    </nav>
+
+    <!-- Alert Messages -->
+    {% if messages %}
+    <div class="alert-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+            <strong>
+                {% if message.tags == 'success' %}
+                <i class="fas fa-check-circle mr-2"></i>
+                {% elif message.tags == 'error' %}
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                {% else %}
+                <i class="fas fa-info-circle mr-2"></i>
+                {% endif %}
+                {{ message }}
+            </strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Student Form -->
+        <div class="form-container">
+            <h3 class="text-center mb-4"><i class="fas fa-user-plus mr-2"></i>Student Registration</h3>
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="username"><i class="fas fa-user mr-1"></i> Student Name</label>
+                        <input type="text" class="form-control" id="username" name="name" required placeholder="Enter full name">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="class"><i class="fas fa-graduation-cap mr-1"></i> Class</label>
+                        <input type="text" class="form-control" id="class" name="sclass" placeholder="Enter class">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="fathername"><i class="fas fa-user-friends mr-1"></i> Father Name</label>
+                        <input type="text" class="form-control" id="fathername" name="fathername" placeholder="Father's name">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="phone"><i class="fas fa-phone-alt mr-1"></i> Phone</label>
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="Contact number">
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary px-5">
+                        <i class="fas fa-paper-plane mr-2"></i>Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Student Table -->
+        <div class="table-container">
+            <h3><i class="fas fa-users mr-2"></i>Student Records</h3>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Class</th>
+                            <th scope="col">Father Name</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for a in std %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ a.name }}</td>
+                            <td>{{ a.student_class }}</td>
+                            <td>{{ a.fathername }}</td>
+                            <td>{{ a.phone }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'delete_student' a.id %}" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt mr-1"></i>Delete
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">Designed by <strong>Vansh</strong> &copy; 2025 | Student Management System</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Auto dismiss alerts after 5 seconds
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('.alert').alert('close');
+            }, 5000);
+        });
+    </script>
+</body>
+
+</html>
